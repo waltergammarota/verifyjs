@@ -11,35 +11,35 @@
      */
     currency: {
       regex: /^\-?\$?\d{1,2}(,?\d{3})*(\.\d+)?$/,
-      message: "Invalid monetary value"
+      message: "Valor de moneda invalido"
     },
     email: {
       regex: /^(([^<>()\[\]\\.,;:\s@\"]+(\.[^<>()\[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      message: "Invalid email address"
+      message: "Direccion de correo invalida"
     },
     url: {
       regex: /^https?:\/\/[\-A-Za-z0-9+&@#\/%?=~_|!:,.;]*[\-A-Za-z0-9+&@#\/%=~_|]/,
-      message: "Invalid URL"
+      message: "URL Invalida"
     },
     alphanumeric: {
       regex: /^[0-9A-Za-z]+$/,
-      message: "Use digits and letters only"
+      message: "Utilizar solo numeros y letras"
     },
     street_number: {
       regex: /^\d+[A-Za-z]?(-\d+)?[A-Za-z]?$/,
-      message: "Street Number only"
+      message: "Solo numero de calle"
     },
     number: {
       regex: /^\d+$/,
-      message: "Use digits only"
+      message: "Solo numeros"
     },
     numberSpace: {
       regex: /^[\d\ ]+$/,
-      message: "Use digits and spaces only"
+      message: "Solo numeros y espacios"
     },
     postcode: {
       regex: /^\d{4}$/,
-      message: "Invalid postcode"
+      message: "Codigo Postal Invalido"
     },
     date: {
       fn: function(r) {
@@ -47,7 +47,7 @@
           return true;
         return r.message;
       },
-      message: "Invalid date"
+      message: "Fecha Invalida"
     },
     required: {
 
@@ -85,9 +85,9 @@
         return true;
       },
       messages: {
-        "all": "This field is required",
-        "multiple": "Please select an option",
-        "single": "This checkbox is required"
+        "all": "Este campo es requerido",
+        "multiple": "Porfavor selecciona una opcion",
+        "single": "Este checkbox es requerido"
       }
     },
     regex: {
@@ -97,7 +97,7 @@
           var str = r.args[0];
           re = new RegExp(str);
         } catch(error) {
-          r.warn("Invalid regex: " + str);
+          r.warn("Expresion regular invalida: " + str);
           return true;
         }
 
@@ -105,7 +105,7 @@
           return r.args[1] || r.message;
         return true;
       },
-      message: "Invalid format"
+      message: "Formato Invalido"
     },
     //an alias
     pattern: {
@@ -123,13 +123,13 @@
       r.val(r.val().replace(/\D/g,''));
       var v = r.val();
       if(!v.match(/^\+?[\d\s]+$/))
-        return "Use digits and spaces only";
+        return "Usar solamente numeros y espacios";
       if(v.match(/^\+/))
         return true; //allow all international
       if(!v.match(/^0/))
-        return "Number must start with 0";
+        return "El numero debe comenzar con 0";
       if(v.replace(/\s/g,"").length !== 10)
-        return "Must be 10 digits long";
+        return "El numero debe ser de 10 digitos";
       return true;
     },
     size: function(r){
@@ -137,12 +137,12 @@
       if(exactOrLower !== undefined && upper === undefined) {
         var exact = parseInt(exactOrLower, 10);
         if(r.val().length !== exact)
-          return  "Must be "+exact+" characters";
+          return  "Debe ser de "+exact+" caracteres";
       } else if(exactOrLower !== undefined && upper !== undefined) {
         var lower = parseInt(exactOrLower, 10);
         upper = parseInt(upper, 10);
         if(v.length < lower || upper < v.length)
-          return "Must be between "+lower+" and "+upper+" characters";
+          return "Debe estar entre "+lower+" y "+upper+" caracteres";
       } else {
         r.warn("size validator parameter error on field: " + r.field.attr('name'));
       }
@@ -152,13 +152,13 @@
     min: function(r) {
       var v = r.val(), min = parseInt(r.args[0], 10);
       if(v.length < min)
-        return "Must be at least " + min + " characters";
+        return "Debe tener por lo menos " + min + " caracteres";
       return true;
     },
     max: function(r) {
       var v = r.val(), max = parseInt(r.args[0], 10);
       if(v.length > max)
-        return "Must be at most " + max + " characters";
+        return "Debe tener como maximo " + max + " caracteres";
       return true;
     },
 
@@ -167,7 +167,7 @@
           places = r.args[0] ? parseInt(r.args[0], 10) : 2;
 
       if(!vStr.match(/^\d+(,\d{3})*(\.\d+)?$/))
-        return "Invalid decimal value";
+        return "Valor decimal invalido";
 
       var v = parseFloat(vStr.replace(/[^\d\.]/g,'')),
           factor = Math.pow(10,places);
@@ -182,7 +182,7 @@
           suffix = r.args[1] || '',
           min = parseFloat(r.args[0]);
       if(v < min)
-        return "Must be greater than " + min + suffix;
+        return "Debe ser mayor que " + min + suffix;
       return true;
     },
     maxVal: function(r) {
@@ -190,7 +190,7 @@
           suffix = r.args[1] || '',
           max = parseFloat(r.args[0]);
       if(v > max)
-        return "Must be less than " + max + suffix;
+        return "Debe ser menor que " + max + suffix;
       return true;
     },
     rangeVal: function(r) {
@@ -200,19 +200,19 @@
           min = parseFloat(r.args[0]),
           max = parseFloat(r.args[1]);
       if(v > max || v < min)
-        return "Must be between " + prefix + min + suffix + "\nand " + prefix + max + suffix;
+        return "Debe estar entre " + prefix + min + suffix + "\nand " + prefix + max + suffix;
       return true;
     },
 
     agreement: function(r){
       if(!r.field.is(":checked"))
-        return "You must agree to continue";
+        return "Debe aceptar para continuar";
       return true;
     },
     minAge: function(r){
       var age = parseInt(r.args[0],10);
       if(!age || isNaN(age)) {
-        console.log("WARNING: Invalid Age Param: " + age);
+        console.log("WARNING: Edad invalida: " + age);
         return true;
       }
       var currDate = new Date();
@@ -220,10 +220,10 @@
       minDate.setFullYear(minDate.getFullYear() - age);
       var fieldDate = $.verify.utils.parseDate(r.val());
 
-      if(fieldDate === "Invalid Date")
-        return "Invalid Date";
+      if(fieldDate === "Fecha Invalida")
+        return "Fecha Invalida";
       if(fieldDate > minDate)
-        return "You must be at least " + age;
+        return "Debes tener almenos " + age;
       return true;
     }
   });
@@ -236,20 +236,20 @@
           end = r.field("end");
 
       if(start.length === 0 || end.length === 0) {
-        r.warn("Missing dateRange fields, skipping...");
+        r.warn("No se encuentra rango de fechas, saltando...");
         return true;
       }
 
       var startDate = $.verify.utils.parseDate(start.val());
       if(!startDate)
-        return "Invalid Start Date";
+        return "Fecha de comienzo invalida";
 
       var endDate = $.verify.utils.parseDate(end.val());
       if(!endDate)
-        return "Invalid End Date";
+        return "Fecha de fin invalida";
 
       if(startDate >= endDate)
-        return "Start Date must come before End Date";
+        return "Fecha de inicio debe ser anterior a la fecha de finalizacion";
 
       return true;
     },
